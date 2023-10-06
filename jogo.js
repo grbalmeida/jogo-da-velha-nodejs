@@ -1,6 +1,7 @@
 module.exports = {
     NUMERO_MAXIMO_JOGADAS: 9,
     jogador: 'O',
+    ganhador: undefined,
     jogadas: {
         A1: ' ',
         A2: ' ',
@@ -51,13 +52,11 @@ ${this.jogadas['C1']} | ${this.jogadas['C2']} | ${this.jogadas['C3']}
       
         let ganhador = undefined;
       
-        Object.values(this.possibilidades).forEach(possibilidade => {
+        let ganhadorEncontrado = Object.values(this.possibilidades).find(possibilidade => {
           if (this.tem3Ocorrencias(possibilidade[0], possibilidade[1], possibilidade[2], 'O')) {
-            ganhador = 'O'
-          }
-      
-          if (this.tem3Ocorrencias(possibilidade[0], possibilidade[1], possibilidade[2], 'X')) {
-            ganhador = 'X'
+            ganhador = 'O';
+          } else if (this.tem3Ocorrencias(possibilidade[0], possibilidade[1], possibilidade[2], 'X')) {
+            ganhador = 'X';
           }
         });
       
