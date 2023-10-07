@@ -278,3 +278,115 @@ test('TEST - Empate', () => {
     expect(jogo.ganhador).not.toBe('O');
     expect(jogo.ganhador).not.toBe('X');
 });
+
+test('TEST - Deve retornar número de jogadas igual a 1', () => {
+    jogo.jogador = 'O';
+    jogo.joga('C1');
+
+    expect(jogo.numeroJogadas()).toBe(1);
+});
+
+test('TEST - Deve retornar número de jogadas igual a 2', () => {
+    jogo.jogador = 'O';
+    jogo.joga('A1');
+
+    jogo.trocaJogador();
+    jogo.joga('A2');
+
+    expect(jogo.numeroJogadas()).toBe(2);
+});
+
+test('TEST - Deve retornar número de jogadas igual a 1, mesmo tentando jogar 3 vezes na mesma posição', () => {
+    jogo.jogador = 'O';
+    jogo.joga('A1');
+
+    jogo.trocaJogador();
+    jogo.joga('A1');
+
+    jogo.trocaJogador();
+    jogo.joga('A1');
+
+    expect(jogo.numeroJogadas()).toBe(1);
+});
+
+test('TEST - Deve retornar Posição inválida se a posição for inválida', () => {
+    jogo.jogador = 'O';
+    var retorno = jogo.joga('A4');
+    expect(retorno.erro).toBe('Posição inválida');
+
+    jogo.trocaJogador();
+    retorno = jogo.joga('B5');
+    expect(retorno.erro).toBe('Posição inválida');
+});
+
+test('TEST - Deve retornar Jogada já executada se jogada já tiver sido executada', () => {
+    jogo.jogador = 'X';
+    jogo.joga('A1');
+    
+    jogo.trocaJogador();
+    var retorno = jogo.joga('A1');
+    
+    expect(retorno.erro).toBe('Jogada já executada');
+});
+
+test('TEST - Deve exibir display quando tiver apenas 1 jogada do jogador O', () => {
+    jogo.jogador = 'O';
+    jogo.joga('A1');
+
+    expect((jogo.display().match(/O/g) || []).length).toBe(1);
+});
+
+test('TEST - Deve exibir display quando tiver apenas 1 jogada do jogador X', () => {
+    jogo.jogador = 'X';
+    jogo.joga('C2');
+
+    expect((jogo.display().match(/X/g) || []).length).toBe(1);
+});
+
+test('TEST - Deve exibir display quando tiver 1 jogada de cada jogador', () => {
+    jogo.jogador = 'O';
+    jogo.joga('A1');
+
+    jogo.trocaJogador();
+    jogo.joga('C2');
+
+    expect((jogo.display().match(/X/gm) || []).length).toBe(1);
+    expect((jogo.display().match(/O/gm) || []).length).toBe(1);
+});
+
+test('TEST - Deve exibir display quando tiver 2 jogadas de cada jogador', () => {
+    jogo.jogador = 'O';
+    jogo.joga('A1');
+    
+    jogo.trocaJogador();
+    jogo.joga('B1');
+
+    jogo.trocaJogador();
+    jogo.joga('A2');
+
+    jogo.trocaJogador();
+    jogo.joga('B2');
+
+    expect((jogo.display().match(/X/gm) || []).length).toBe(2);
+    expect((jogo.display().match(/O/gm) || []).length).toBe(2);
+});
+
+test('TEST - Deve exibir display quando jogo estiver completo - 5 jogadas', () => {
+    jogo.jogador = 'O';
+    jogo.joga('A1');
+
+    jogo.trocaJogador();
+    jogo.joga('B1');
+
+    jogo.trocaJogador();
+    jogo.joga('A2');
+
+    jogo.trocaJogador();
+    jogo.joga('B2');
+
+    jogo.trocaJogador();
+    jogo.joga('A3');
+
+    expect((jogo.display().match(/O/gm) || []).length).toBe(3);
+    expect((jogo.display().match(/X/gm) || []).length).toBe(2);
+});

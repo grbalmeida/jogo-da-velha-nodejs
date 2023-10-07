@@ -25,17 +25,12 @@ const run = async() => {
     console.log(`Agora e a vez do jogador ${jogo.jogador}`);
     const posicao = (await getAnswer('Posicao')).trim();
 
-    if (jogo.jogadas[posicao] === undefined) {
-      console.log('Posicao invalida');
-      continue;
-    }
+    var retorno = jogo.joga(posicao);
 
-    if (jogo.jogadas[posicao].trim() !== '') {
-      console.log('Jogada ja executada');
-      continue;
+    if (retorno.erro) {
+        console.log(retorno.erro);
+	continue;
     }
-
-    jogo.joga(posicao);
 
     jogo.trocaJogador();
 

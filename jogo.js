@@ -66,6 +66,16 @@ ${this.jogadas['C1']} | ${this.jogadas['C2']} | ${this.jogadas['C3']}
         return Object.values(this.jogadas).map(v => v.trim()).filter(v => Boolean(v)).length;
     },
     joga: function(posicao) {
+	if (this.jogadas[posicao] === undefined) {
+            return {erro: 'Posição inválida'};
+	}
+
+	if (this.jogadas[posicao].trim() !== '') {
+            return {erro: 'Jogada já executada'};
+	}
+	
         this.jogadas[posicao] = this.jogador;
+
+        return {erro: ''};
     }
 };
